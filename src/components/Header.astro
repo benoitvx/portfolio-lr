@@ -1,0 +1,91 @@
+---
+const navLinks = [
+  { href: '/', label: 'Accueil' },
+  { href: '/livre', label: 'Livre' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/textes', label: 'Textes' },
+  { href: '/a-propos', label: 'À propos' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-[--color-bg]/95 backdrop-blur-sm border-b border-[--color-accent]/20">
+  <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="font-serif text-2xl md:text-3xl text-[--color-primary-dark] hover:text-[--color-primary] transition-colors">
+      Laetitia Roux
+    </a>
+
+    <!-- Desktop Navigation -->
+    <ul class="hidden md:flex items-center gap-8">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'text-sm tracking-wide uppercase transition-colors',
+              currentPath === href
+                ? 'text-[--color-primary] font-medium'
+                : 'text-[--color-text-light] hover:text-[--color-primary]'
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Mobile Menu Button -->
+    <button
+      type="button"
+      class="md:hidden p-2 text-[--color-text] hover:text-[--color-primary] transition-colors"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      data-menu-toggle
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path class="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+        <path class="menu-icon-close hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Navigation -->
+  <div class="md:hidden hidden" data-mobile-menu>
+    <ul class="px-4 py-6 space-y-4 bg-[--color-bg] border-t border-[--color-accent]/20">
+      {navLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'block py-2 text-lg transition-colors',
+              currentPath === href
+                ? 'text-[--color-primary] font-medium'
+                : 'text-[--color-text-light] hover:text-[--color-primary]'
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.querySelector('[data-menu-toggle]');
+  const mobileMenu = document.querySelector('[data-mobile-menu]');
+  const iconOpen = document.querySelector('.menu-icon-open');
+  const iconClose = document.querySelector('.menu-icon-close');
+
+  menuToggle?.addEventListener('click', () => {
+    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!isExpanded));
+    menuToggle.setAttribute('aria-label', isExpanded ? 'Ouvrir le menu' : 'Fermer le menu');
+    mobileMenu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+  });
+</script>

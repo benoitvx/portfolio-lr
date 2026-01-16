@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionTitle from '@components/SectionTitle.astro';
+import Card from '@components/Card.astro';
+
+const textes = await getCollection('textes');
+const sortedTextes = textes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout
+  title="Textes personnels"
+  description="Poèmes, réflexions et textes courts sur la nature."
+>
+  <section class="py-16 md:py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+      <SectionTitle
+        title="Textes personnels"
+        subtitle="Poèmes et réflexions"
+        centered={true}
+      />
+
+      {sortedTextes.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sortedTextes.map((texte) => (
+            <Card
+              title={texte.data.title}
+              description={texte.data.description}
+              image={texte.data.image}
+              href={`/textes/${texte.slug}`}
+              category={texte.data.category}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-[--color-text-light] text-lg">
+          Aucun texte pour le moment.
+        </p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

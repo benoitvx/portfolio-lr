@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import HeroBanner from '@components/HeroBanner.astro';
+import SectionTitle from '@components/SectionTitle.astro';
+import Card from '@components/Card.astro';
+import SubstackFeed from '@components/SubstackFeed.astro';
+
+// Récupération des vraies collections
+const portfolioArticles = await getCollection('portfolio');
+const textesArticles = await getCollection('textes');
+
+// Tri par date et limite à 3
+const latestPortfolio = portfolioArticles
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const latestTextes = textesArticles
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const heroImage = 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80';
+---
+
+<BaseLayout title="Accueil">
+  <!-- Hero Banner -->
+  <HeroBanner
+    image={heroImage}
+    fullHeight={true}
+  />
+
+  <!-- Section Présentation -->
+  <section class="py-16 md:py-24 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xl md:text-2xl text-[--color-text-light] leading-relaxed">
+        Écrivaine et rédactrice passionnée par la nature et l'environnement,
+        je mets ma plume au service de ceux qui souhaitent raconter le vivant.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section Portfolio -->
+  <section class="py-16 md:py-24 px-4 bg-[--color-bg-alt]">
+    <div class="max-w-6xl mx-auto">
+      <SectionTitle
+        title="Portfolio"
+        subtitle="Mes dernières publications"
+        href="/portfolio"
+      />
+      {latestPortfolio.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {latestPortfolio.map((article) => (
+            <Card
+              title={article.data.title}
+              description={article.data.description}
+              image={article.data.image}
+              href={`/portfolio/${article.slug}`}
+              date={article.data.date}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-[--color-text-light]">
+          Aucun article pour le moment.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- Section Textes -->
+  <section class="py-16 md:py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+      <SectionTitle
+        title="Textes personnels"
+        subtitle="Poèmes et réflexions"
+        href="/textes"
+      />
+      {latestTextes.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {latestTextes.map((texte) => (
+            <Card
+              title={texte.data.title}
+              description={texte.data.description}
+              image={texte.data.image}
+              href={`/textes/${texte.slug}`}
+              category={texte.data.category}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-[--color-text-light]">
+          Aucun texte pour le moment.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <!-- Section Substack -->
+  <div class="bg-[--color-bg-alt]">
+    <SubstackFeed />
+  </div>
+</BaseLayout>

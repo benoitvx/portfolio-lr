@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const textes = await getCollection('textes');
+  return textes.map((texte) => ({
+    params: { slug: texte.slug },
+    props: { texte },
+  }));
+}
+
+const { texte } = Astro.props;
+const { Content } = await texte.render();
+
+const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(texte.data.date);
+---
+
+<BaseLayout
+  title={texte.data.title}
+  description={texte.data.description}
+  image={texte.data.image}
+>
+  <article class="py-16 md:py-24 px-4">
+    <div class="max-w-2xl mx-auto">
+      <!-- En-tête -->
+      <header class="mb-12 text-center">
+        <p class="text-sm uppercase tracking-wide mb-4">
+          <span class="text-[--color-primary]">{texte.data.category}</span>
+          <span class="text-[--color-text-light]"> &middot; </span>
+          <time class="text-[--color-text-light]" datetime={texte.data.date.toISOString()}>
+            {formattedDate}
+          </time>
+        </p>
+        <h1 class="font-serif text-4xl md:text-5xl text-[--color-primary-dark]">
+          {texte.data.title}
+        </h1>
+      </header>
+
+      <!-- Contenu du texte -->
+      <div class="texte-content font-serif text-xl leading-relaxed text-center">
+        <Content />
+      </div>
+
+      <!-- Retour -->
+      <nav class="mt-16 pt-8 border-t border-[--color-accent]/30">
+        <a
+          href="/textes"
+          class="inline-flex items-center gap-2 text-[--color-primary] hover:text-[--color-primary-dark] transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Retour aux textes
+        </a>
+      </nav>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .texte-content :global(p) {
+    margin-bottom: 2rem;
+    white-space: pre-line;
+  }
+
+  .texte-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

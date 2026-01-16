@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Palette de couleurs - tons naturels */
+  --color-primary: #4a6741;
+  --color-primary-light: #6b8c5e;
+  --color-primary-dark: #2d3f29;
+
+  --color-bg: #faf9f7;
+  --color-bg-alt: #f0efe9;
+  --color-text: #2c2c2c;
+  --color-text-light: #6b6b6b;
+  --color-accent: #8fa87e;
+
+  /* Typographie */
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
+
+  /* Tailles de texte personnalisées */
+  --text-body: 1.125rem;
+  --text-small: 0.875rem;
+}
+
+/* Styles de base */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Focus visible pour accessibilité */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Sélection de texte */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}

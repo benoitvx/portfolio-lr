@@ -1,0 +1,54 @@
+---
+interface Props {
+  image: string;
+  title?: string;
+  baseline?: string;
+  fullHeight?: boolean;
+}
+
+const {
+  image,
+  title = 'Laetitia Roux',
+  baseline = "J'écris pour vous sur la nature",
+  fullHeight = false
+} = Astro.props;
+---
+
+<section
+  class:list={[
+    'relative w-full overflow-hidden',
+    fullHeight ? 'min-h-[70vh] md:min-h-[80vh]' : 'min-h-[40vh] md:min-h-[50vh]'
+  ]}
+>
+  <!-- Image de fond -->
+  <div class="absolute inset-0">
+    <img
+      src={image}
+      alt=""
+      class="w-full h-full object-cover"
+      loading="eager"
+      decoding="async"
+    />
+    <!-- Overlay gradient pour lisibilité du texte -->
+    <div class="absolute inset-0 bg-gradient-to-t from-[--color-primary-dark]/80 via-[--color-primary-dark]/40 to-[--color-primary-dark]/20" />
+  </div>
+
+  <!-- Contenu texte -->
+  <div class="relative z-10 h-full min-h-[inherit] flex items-end justify-center pb-12 md:pb-16 px-4">
+    <div class="text-center">
+      {title && (
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl mb-4 text-white [text-shadow:_0_2px_12px_rgba(0,0,0,0.5)]">
+          {title}
+        </h1>
+      )}
+      {baseline && (
+        <p class="font-serif text-xl md:text-2xl italic text-white/90 [text-shadow:_0_1px_8px_rgba(0,0,0,0.4)]">
+          {baseline}
+        </p>
+      )}
+    </div>
+  </div>
+
+  <!-- Décoration subtile en bas -->
+  <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[--color-accent]/50 to-transparent" />
+</section>

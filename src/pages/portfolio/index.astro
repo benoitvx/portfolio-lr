@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SectionTitle from '@components/SectionTitle.astro';
+import Card from '@components/Card.astro';
+
+const articles = await getCollection('portfolio');
+const sortedArticles = articles.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout
+  title="Portfolio"
+  description="Découvrez mes articles et publications sur la nature et l'environnement."
+>
+  <section class="py-16 md:py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+      <SectionTitle
+        title="Portfolio"
+        subtitle="Mes articles et publications"
+        centered={true}
+      />
+
+      {sortedArticles.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sortedArticles.map((article) => (
+            <Card
+              title={article.data.title}
+              description={article.data.description}
+              image={article.data.image}
+              href={`/portfolio/${article.slug}`}
+              date={article.data.date}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="text-center text-[--color-text-light] text-lg">
+          Aucun article pour le moment.
+        </p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

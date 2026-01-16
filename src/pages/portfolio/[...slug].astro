@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('portfolio');
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+
+const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+}).format(article.data.date);
+---
+
+<BaseLayout
+  title={article.data.title}
+  description={article.data.description}
+  image={article.data.image}
+>
+  <article class="py-16 md:py-24 px-4">
+    <div class="max-w-3xl mx-auto">
+      <!-- En-tête -->
+      <header class="mb-12 text-center">
+        <p class="text-sm text-[--color-text-light] uppercase tracking-wide mb-4">
+          <time datetime={article.data.date.toISOString()}>{formattedDate}</time>
+          {article.data.client && (
+            <span> &middot; {article.data.client}</span>
+          )}
+        </p>
+        <h1 class="font-serif text-4xl md:text-5xl text-[--color-primary-dark] mb-4">
+          {article.data.title}
+        </h1>
+        <p class="text-xl text-[--color-text-light]">
+          {article.data.description}
+        </p>
+      </header>
+
+      <!-- Image principale -->
+      <figure class="mb-12">
+        <img
+          src={article.data.image}
+          alt={article.data.title}
+          class="w-full rounded-sm"
+          loading="eager"
+        />
+      </figure>
+
+      <!-- Lien PDF si type pdf -->
+      {article.data.type === 'pdf' && article.data.pdfUrl && (
+        <div class="mb-12 p-6 bg-[--color-bg-alt] rounded-sm text-center">
+          <p class="mb-4 text-[--color-text-light]">
+            Cet article est disponible en téléchargement PDF.
+          </p>
+          <a
+            href={article.data.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-[--color-primary] text-white rounded-sm hover:bg-[--color-primary-dark] transition-colors"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Télécharger le PDF
+          </a>
+        </div>
+      )}
+
+      <!-- Contenu -->
+      {article.data.type === 'article' && (
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+      )}
+
+      <!-- Retour -->
+      <nav class="mt-16 pt-8 border-t border-[--color-accent]/30">
+        <a
+          href="/portfolio"
+          class="inline-flex items-center gap-2 text-[--color-primary] hover:text-[--color-primary-dark] transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Retour au portfolio
+        </a>
+      </nav>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .prose h2 {
+    font-family: var(--font-serif);
+    color: var(--color-primary-dark);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose p {
+    margin-bottom: 1.5rem;
+  }
+
+  .prose img {
+    border-radius: 2px;
+    margin: 2rem 0;
+  }
+
+  .prose a {
+    color: var(--color-primary);
+  }
+
+  .prose a:hover {
+    color: var(--color-primary-dark);
+  }
+</style>

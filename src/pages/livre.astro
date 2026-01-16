@@ -1,0 +1,117 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const bookData = {
+  title: "Titre du livre",
+  subtitle: "Sous-titre ou accroche",
+  cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80",
+  description: `
+    Une description captivante du livre qui donne envie de le lire.
+    Ce texte peut être sur plusieurs paragraphes pour présenter
+    l'ouvrage, son contexte et ce que le lecteur y trouvera.
+  `,
+  year: "2024",
+  publisher: "Nom de l'éditeur",
+  pages: "240",
+  isbn: "978-X-XXXX-XXXX-X",
+  buyLinks: [
+    { label: "Fnac", url: "#" },
+    { label: "Amazon", url: "#" },
+    { label: "Librairie locale", url: "#" },
+  ],
+};
+---
+
+<BaseLayout
+  title="Livre"
+  description={`Découvrez "${bookData.title}" - ${bookData.subtitle}`}
+>
+  <section class="py-16 md:py-24 px-4">
+    <div class="max-w-5xl mx-auto">
+      <!-- En-tête avec couverture et infos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+        <!-- Couverture -->
+        <div class="flex justify-center md:justify-end">
+          <div class="relative">
+            <img
+              src={bookData.cover}
+              alt={`Couverture de ${bookData.title}`}
+              class="w-full max-w-sm shadow-2xl rounded-sm"
+              loading="eager"
+            />
+            <!-- Effet de relief -->
+            <div class="absolute inset-0 shadow-inner rounded-sm pointer-events-none" />
+          </div>
+        </div>
+
+        <!-- Informations -->
+        <div class="space-y-6">
+          <div>
+            <h1 class="font-serif text-4xl md:text-5xl text-[--color-primary-dark] mb-3">
+              {bookData.title}
+            </h1>
+            <p class="text-xl text-[--color-text-light] italic">
+              {bookData.subtitle}
+            </p>
+          </div>
+
+          <!-- Métadonnées -->
+          <div class="flex flex-wrap gap-4 text-sm text-[--color-text-light]">
+            <span class="px-3 py-1 bg-[--color-bg-alt] rounded-full">
+              {bookData.year}
+            </span>
+            <span class="px-3 py-1 bg-[--color-bg-alt] rounded-full">
+              {bookData.pages} pages
+            </span>
+            <span class="px-3 py-1 bg-[--color-bg-alt] rounded-full">
+              {bookData.publisher}
+            </span>
+          </div>
+
+          <!-- Description -->
+          <div class="prose text-[--color-text]">
+            {bookData.description.split('\n').filter(p => p.trim()).map(paragraph => (
+              <p class="mb-4">{paragraph.trim()}</p>
+            ))}
+          </div>
+
+          <!-- Liens d'achat -->
+          <div class="pt-4">
+            <p class="text-sm uppercase tracking-wide text-[--color-text-light] mb-4">
+              Où se procurer le livre
+            </p>
+            <div class="flex flex-wrap gap-3">
+              {bookData.buyLinks.map(({ label, url }) => (
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-5 py-2.5 bg-[--color-primary] text-white rounded-sm hover:bg-[--color-primary-dark] transition-colors text-sm font-medium"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Extrait (optionnel) -->
+      <div class="mt-20 pt-12 border-t border-[--color-accent]/30">
+        <h2 class="font-serif text-3xl text-[--color-primary-dark] mb-8 text-center">
+          Extrait
+        </h2>
+        <blockquote class="max-w-2xl mx-auto text-center">
+          <p class="font-serif text-xl md:text-2xl text-[--color-text] leading-relaxed italic">
+            "Un extrait marquant du livre qui donne le ton et l'atmosphère
+            de l'ouvrage. Une ou deux phrases qui captent l'essence
+            de l'écriture et du propos."
+          </p>
+          <footer class="mt-6 text-[--color-text-light]">
+            — Extrait du chapitre 1
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

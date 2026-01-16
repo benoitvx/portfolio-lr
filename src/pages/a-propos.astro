@@ -1,0 +1,132 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const portrait = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80";
+---
+
+<BaseLayout
+  title="À propos"
+  description="Découvrez le parcours et les valeurs de Laetitia Roux, écrivaine et rédactrice spécialisée nature et environnement."
+>
+  <section class="py-16 md:py-24 px-4">
+    <div class="max-w-5xl mx-auto">
+      <!-- En-tête avec portrait -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center mb-16">
+        <!-- Portrait -->
+        <div class="flex justify-center md:justify-start order-1 md:order-2">
+          <div class="relative">
+            <img
+              src={portrait}
+              alt="Portrait de Laetitia Roux"
+              class="w-64 h-80 md:w-80 md:h-96 object-cover rounded-sm shadow-lg"
+              loading="eager"
+            />
+            <!-- Décoration -->
+            <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-[--color-accent] rounded-sm -z-10" />
+          </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="order-2 md:order-1">
+          <h1 class="font-serif text-4xl md:text-5xl text-[--color-primary-dark] mb-6">
+            À propos
+          </h1>
+          <p class="text-xl text-[--color-text-light] leading-relaxed mb-6">
+            Écrivaine et rédactrice passionnée par la nature et l'environnement,
+            je mets ma plume au service de ceux qui souhaitent raconter le vivant.
+          </p>
+          <p class="text-[--color-text] leading-relaxed">
+            Depuis plus de dix ans, j'explore les liens entre l'homme et la nature
+            à travers l'écriture. Reportages, articles de fond, textes littéraires :
+            chaque projet est une nouvelle aventure au cœur du vivant.
+          </p>
+        </div>
+      </div>
+
+      <!-- Parcours -->
+      <div class="mb-16">
+        <h2 class="font-serif text-3xl text-[--color-primary-dark] mb-8">
+          Mon parcours
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="space-y-6">
+            <p class="text-[--color-text] leading-relaxed">
+              Formée en lettres et en sciences de l'environnement, j'ai rapidement
+              compris que ma vocation était de faire le pont entre ces deux mondes.
+              La rigueur scientifique au service de la beauté des mots.
+            </p>
+            <p class="text-[--color-text] leading-relaxed">
+              J'ai collaboré avec des magazines comme GEO, Terre Sauvage, et de nombreuses
+              publications spécialisées. Chaque reportage m'emmène sur le terrain,
+              à la rencontre de ceux qui protègent et étudient la nature.
+            </p>
+          </div>
+          <div class="space-y-6">
+            <p class="text-[--color-text] leading-relaxed">
+              En parallèle de mes activités journalistiques, j'écris des textes
+              plus personnels : poèmes, réflexions, textes courts. Une écriture
+              intime qui explore notre rapport au monde sauvage.
+            </p>
+            <p class="text-[--color-text] leading-relaxed">
+              Mon premier livre, publié en 2024, est l'aboutissement de plusieurs
+              années de travail et de contemplation. Une invitation à redécouvrir
+              la nature qui nous entoure.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Valeurs -->
+      <div class="bg-[--color-bg-alt] rounded-sm p-8 md:p-12">
+        <h2 class="font-serif text-3xl text-[--color-primary-dark] mb-8 text-center">
+          Mes valeurs
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-[--color-primary]/10 rounded-full flex items-center justify-center text-3xl">
+              <span role="img" aria-label="Livre">📚</span>
+            </div>
+            <h3 class="font-serif text-xl text-[--color-primary-dark] mb-2">Rigueur</h3>
+            <p class="text-[--color-text-light] text-sm">
+              Une écriture documentée, précise, qui respecte la complexité du vivant.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-[--color-primary]/10 rounded-full flex items-center justify-center text-3xl">
+              <span role="img" aria-label="Coeur">🌿</span>
+            </div>
+            <h3 class="font-serif text-xl text-[--color-primary-dark] mb-2">Sensibilité</h3>
+            <p class="text-[--color-text-light] text-sm">
+              Une attention portée à la beauté du monde et à sa fragilité.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-[--color-primary]/10 rounded-full flex items-center justify-center text-3xl">
+              <span role="img" aria-label="Globe">🌍</span>
+            </div>
+            <h3 class="font-serif text-xl text-[--color-primary-dark] mb-2">Engagement</h3>
+            <p class="text-[--color-text-light] text-sm">
+              Écrire pour sensibiliser, transmettre et protéger.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Contact -->
+      <div class="mt-16 text-center">
+        <p class="text-[--color-text-light] mb-6">
+          Un projet d'écriture sur la nature ? Parlons-en.
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-[--color-primary] text-white rounded-sm hover:bg-[--color-primary-dark] transition-colors"
+        >
+          Me contacter
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
