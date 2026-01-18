@@ -1,6 +1,10 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 3000;
 const DIST_DIR = path.join(__dirname, 'dist');
@@ -23,11 +27,12 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+
   let filePath = path.join(DIST_DIR, req.url === '/' ? 'index.html' : req.url);
 
   // Handle URLs without extension (SPA-like routing)
   if (!path.extname(filePath)) {
-    // Try adding .html
     if (fs.existsSync(filePath + '.html')) {
       filePath = filePath + '.html';
     } else if (fs.existsSync(path.join(filePath, 'index.html'))) {
@@ -41,7 +46,6 @@ const server = http.createServer((req, res) => {
   fs.readFile(filePath, (err, content) => {
     if (err) {
       if (err.code === 'ENOENT') {
-        // 404 - try to serve 404.html or fallback
         const notFoundPath = path.join(DIST_DIR, '404.html');
         fs.readFile(notFoundPath, (err404, content404) => {
           if (err404) {
@@ -63,7 +67,7 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
   console.log(`Serving static files from ${DIST_DIR}`);
 });
