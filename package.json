@@ -6,11 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "start": "serve dist -p 3000",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^5.0.0",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "serve": "^14.2.5"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",
